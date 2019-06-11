@@ -41,7 +41,9 @@ def get_bands(nums, band_number):
 
 def print_histogram(bands):
     for band in sorted(bands.keys()):
-        print(f"{str(band).rjust(5)} | {'*' * bands[band]}")
+        # limits decimal places to 1
+        trunc_band = int(band*10)/10
+        print(f"{str(trunc_band).rjust(6)} | {'*' * bands[band]}")
 
 
 if __name__ == "__main__":
