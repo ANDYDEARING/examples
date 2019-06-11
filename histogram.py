@@ -2,6 +2,12 @@ def create_histogram(file, band_number):
     """takes a file and a desired number of bands, prints
     the histogram, and returns nothing"""
     nums = get_nums_from_file(file)
+
+    # if the band_number is invalid, exit the function
+    if band_number < 2:
+        print("Invalid number of bands")
+        return None
+    
     bands = get_bands(nums, band_number)
     print_histogram(bands)
 
@@ -18,26 +24,31 @@ def get_nums_from_file(file):
 
 def get_bands(nums, band_number):
     """accepts a list of floats and a desired number of bands,
-    returning a dictionary of bands and their frequencies. To 
-    maximize even data representation, both the maximum and 
-    minimum values are included as endpoints"""
+    returning a dictionary of bands and their frequencies. This
+    function now uses the midpoint method, where the min and max
+    values are at the midpoints of their respective ranges"""
     bands = {}
     min_num = min(nums)
     max_num = max(nums)
-
-    # uses the midpoint method to include both minimum and maximum
-    # dividing by band number - 1 because half a range is appended to each end
-    if band_number != 1:
-        band_size = (max_num - min_num) / (band_number - 1)
-    else:
-        band_size = 0
+    
+    # if the number of desired bands is not 1 or 0, find the band size
+    # by dividing the range by the band_number - 1 because half
+    # a range will be appended to the beginning and the end of the
+    # dictionary by the midpoint method
+    
+    band_size = (max_num - min_num) / (band_number - 1)
 
     # make the histogram with ranges
+    # initialize the bottom of the first range
+    min_of_band = min_num - (band_size/2)
     for index in range(band_number):
-        # bands[(index * band_size) + min_num] = 0
-        min_of_band = (index*band_size) + min_num - (band_size/2)
+        # compute the maximum of the range, make the key, and make the 
+        # previous maximum the minimum for the next key. This corrects
+        # the rounding error with some bands inherent in mixing addition
+        # and division
         max_of_band = (index*band_size) + min_num + (band_size/2)
         bands[(min_of_band,max_of_band)] = 0
+        min_of_band = max_of_band
     
     # add the numbers to the histogram
     for num in nums:
