@@ -49,7 +49,7 @@ if __name__ == "__main__":
     from pathlib import Path
 
     parser = argparse.ArgumentParser(description='Create a histogram')
-    parser.add_argument('-b', '--band-number', default=10, type=float)
+    parser.add_argument('-b', '--band-number', default=10, type=int)
     parser.add_argument('file', help='file to read')
     args = parser.parse_args()
 
