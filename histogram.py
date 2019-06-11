@@ -30,12 +30,13 @@ def get_bands(nums, band_number):
     for num in nums:
         band = num // band_size * band_size + min_num
 
-        # accounts for the special case of the max number to include it
-        # in the highest data bucket as the upper limit
-        if (band not in bands) and (band - band_size in bands):
-            bands[band-band_size] += 1
-        else:
+        # only the maximum number is excluded
+        if band in bands:
             bands[band] += 1
+
+    # accounts for the special case of the max number to include it
+    sorted(bands.keys(), reverse=True)[0] += 1
+
     return bands
 
 
